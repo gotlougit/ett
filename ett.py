@@ -4,8 +4,8 @@
 #Defines all functions necessary for functioning of Eye Time Tracker.
 #Dependencies - time, notify2 (python3 modules)
 
-
 import time
+
 
 #This function asks the user how many minutes they want the program to wait.
 def ask():
@@ -18,13 +18,13 @@ def ask():
         global minute_wait
         minute_wait = input("> ")
     elif proceed_create == choice_2:
-         print("Eye Time Tracker is now quitting. Goodbye.")
-         quit()
+        print("Eye Time Tracker is now quitting. Goodbye.")
+        quit()
 
 #Defines the rest of the variables needed for ett to work
 def all_vars(x): 
     try:
-       x  = int(x)
+        x  = int(x)
     except ValueError:
         x = float(x)  
     global second_wait
@@ -55,16 +55,18 @@ def break2():
             lng = int(lng)
         except ValueError:
             lng = float(lng)
-        print("Ok. You are taking a break for " + str(lng) + " minute(s). Eye Time Tracker will ask you if you are here after " + str(lng) + " minutes.")
-        # To be continued in break3(). Stay tuned and go down to learn what happens next! ;)
-
+        print("Ok. You are taking a break for " + str(lng) + " minute(s). Eye Time Tracker will ask you if you are here after " + str(lng) + " minute(s).")
+    # To be continued in break3(). Stay tuned and go down to learn what happens next! ;)
+    elif yon == "n":
+        print("Ok. Eye Time Tracker is quitting.")
+        quit()
 
 #Continuing from where we last left off in break2(), this function manages stuff to happen after 'lng' minutes have passed.        
 def break3(x):
     from time import sleep
     time.sleep(x * 60)
     import notify2
-    worked = str(x) + " minutes have passed. Your break is over. :("
+    worked = str(x) + " minutes(s) have passed. Your break is over. :("
     notify2.init('Eye Time Tracker')
     n = notify2.Notification('Eye Time Tracker', worked)
     n.show()
@@ -78,15 +80,26 @@ def break3(x):
     elif there == "n":
         print("Eye Time Tracker is now quitting. Goodbye.")
         quit() 
-    
+
+# This function is used to see if you are taking a break. If you are, it continues to break3().  
+def break25():
+    print("Are you taking a break right now? [y or n]")
+    breakyon = input("> ")
+    if breakyon == "y":
+        break3(lng)
+    elif breakyon == "n":
+        print("Okay. Go ruin your eyes if that's what you want. I don't care. I'm just doing this because I am programmed to. Why would I help you?")
+        print("You know what? I quit().")
+        quit()
+
 #The loop() function nests all of the above functions and executes them in a loop, with some conditions to fulfill to avoid errors like "variable 'foo' not defined"
 def loop():
-    while True:
+     while True:
         all_vars(minute_wait)
         wait_a_lot(minute_wait)
-        break3(lng) 
-        
-ask() 
+        break25() 
+    
+ask()
 all_vars(minute_wait)
 wait_a_lot(minute_wait)
 break2()
